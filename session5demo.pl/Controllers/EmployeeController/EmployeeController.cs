@@ -5,6 +5,7 @@ using session5demo.bl.Sevices.DpartmentServices;
 using session5demo.bl.Sevices.EmployeeServices;
 using session5demo.pl.ViewModels.DepartmentViewModel;
 using session5demo.pl.ViewModels.Employeeupdatevm;
+using System.Runtime.Intrinsics.Arm;
 
 namespace session5demo.pl.Controllers.EmployeeController
 {
@@ -31,14 +32,31 @@ namespace session5demo.pl.Controllers.EmployeeController
             return View();
         }
         [HttpPost]
-        public IActionResult Create(createemployeedto d)
+
+        [ValidateAntiForgeryToken]
+        public IActionResult Create(Employeeupdatevm dep)
         {
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    var res = _d.addemployee(d);
+                    var emp = new createemployeedto()
+                    {
+                        
+                        Name = dep.Name,
+                        Age = dep.Age,
+                        Salary = dep.Salary,
+                        IsActive = dep.IsActive,
+                        Address = dep.Address,
+                        HiringDate = dep.HiringDate,
+                        PhoneNumber = dep.PhoneNumber,
+                        Email = dep.Email,
+                       deptid=dep.deptid
+                    
+
+                    };
+                    var res = _d.addemployee(emp);
                     if (res > 0)
                     {
                         return RedirectToAction("Index");
@@ -47,7 +65,7 @@ namespace session5demo.pl.Controllers.EmployeeController
                     else
                     {
                         ModelState.AddModelError(string.Empty, "cant create employee");
-                        return View(d);
+                        return View(dep);
 
                     }
                 }
@@ -57,7 +75,7 @@ namespace session5demo.pl.Controllers.EmployeeController
                     if (webHost.IsDevelopment())
                     {
                         logger.LogError(ex.Message);
-                        return View(d);
+                        return View(dep);
                     }
                     else
                     {
@@ -69,7 +87,7 @@ namespace session5demo.pl.Controllers.EmployeeController
 
             else
             {
-                return View(d);
+                return View(dep);
             }
 
         }
@@ -88,23 +106,28 @@ namespace session5demo.pl.Controllers.EmployeeController
             if (id is null) return BadRequest();
             var dep = _d.getdetails(id.Value);
             if (dep is null) return NotFound();
-            var res = new Employeeupdatevm()
+            var res = new Employeeupdatevm ()
             {
                 Id = dep.Id,
                 Name = dep.Name,
                 Age = dep.Age,
                 Salary = dep.Salary,
                 IsActive = dep.IsActive,
+                Address=dep.Address,
+                HiringDate=dep.HiringDate,
+                PhoneNumber=dep.PhoneNumber,
                 Email = dep.Email,
-                Gender = dep.Gender,
-                EmployeeType = dep.EmployeeType
+                deptid=dep.deptid
+
 
             };
             return View(res);
 
         }
         [HttpPost]
-        public IActionResult Edit([FromRoute] int? id, updateemployeedto dep)
+
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit([FromRoute] int? id, Employeeupdatevm dep)
         {
             if (!ModelState.IsValid) return View(dep);
             var emp = new updateemployeedto()
@@ -115,8 +138,8 @@ namespace session5demo.pl.Controllers.EmployeeController
                 Salary = dep.Salary,
                 IsActive = dep.IsActive,
                 Email = dep.Email,
-                Gender = dep.Gender,
-                EmployeeType = dep.EmployeeType
+                deptid = dep.deptid
+
             };
             if (ModelState.IsValid)
             {
@@ -125,7 +148,7 @@ namespace session5demo.pl.Controllers.EmployeeController
                     var res2 = _d.updateemployee(emp);
                     if (res2 > 0)
                     {
-                        return RedirectToAction("index");
+                        return RedirectToAction("Index");
 
                     }
                     else
@@ -169,6 +192,8 @@ namespace session5demo.pl.Controllers.EmployeeController
 
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
+
         public IActionResult Delete(int id)
         {
             var res = _d.deleteemployee(id);

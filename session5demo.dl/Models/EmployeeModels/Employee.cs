@@ -1,6 +1,8 @@
-﻿using session5demo.dl.Models.Shared;
+﻿using session5demo.dl.Models.DepartmentModels;
+using session5demo.dl.Models.Shared;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,5 +21,10 @@ namespace session5demo.dl.Models.EmployeeModels
         public DateTime HiringDate { get; set; }
         public Gender Gender { get; set; }
         public EmployeeType EmployeeType { get; set; }
+        [ForeignKey("dept")]
+        public int? deptid { get; set; }
+        [InverseProperty("emps")]
+        public virtual Department dept { get; set; }
+
     }
 }

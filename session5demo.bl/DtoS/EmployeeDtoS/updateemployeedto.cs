@@ -32,7 +32,8 @@ namespace session5demo.bl.DtoS.EmployeeDtoS
         public string? PhoneNumber { get; set; }
         [Display(Name = "Hiring Date")]
         public DateTime HiringDate { get; set; }
-        public Gender Gender { get; set; }
-        public EmployeeType EmployeeType { get; set; }
+        public string? Gender { get; set; }
+        public string? EmployeeType { get; set; }
+        public int? deptid { get; set; }
     }
 }

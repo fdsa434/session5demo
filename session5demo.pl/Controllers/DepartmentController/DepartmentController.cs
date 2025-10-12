@@ -2,6 +2,7 @@
 using session5demo.bl.DtoS.DepartmentDtoS;
 using session5demo.bl.Sevices.DpartmentServices;
 using session5demo.pl.ViewModels.DepartmentViewModel;
+using System.Runtime.Intrinsics.Arm;
 
 namespace session5demo.pl.Controllers.DepartmentController
 {
@@ -28,17 +29,24 @@ namespace session5demo.pl.Controllers.DepartmentController
             return View();
         }
         [HttpPost]
-        public IActionResult Create(createdepartmentdto d)
+        [ValidateAntiForgeryToken]
+
+        public IActionResult Create(Updateddepartmentvm dep)
         {
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    var res = _d.adddept(d);
-                    Console.WriteLine("===============================================");
-                    Console.WriteLine(res);
-                    Console.WriteLine("===============================================");
+                    var depart = new createdepartmentdto()
+                    {
+                        
+                        Name = dep.Name,
+                        Code = dep.Code,
+                        Description = dep.Description
+                    };
+                    var res = _d.adddept(depart);
+              
 
                     if (res > 0)
                     {
@@ -48,7 +56,7 @@ namespace session5demo.pl.Controllers.DepartmentController
                     else
                     {
                         ModelState.AddModelError(string.Empty, "cant create depaertment");
-                        return View(d);
+                        return View(dep);
 
                     }
                 }
@@ -58,7 +66,7 @@ namespace session5demo.pl.Controllers.DepartmentController
                     if (webHost.IsDevelopment())
                     {
                         logger.LogError(ex.Message);
-                        return View(d);
+                        return View(dep);
                     }
                     else
                     {
@@ -70,7 +78,7 @@ namespace session5demo.pl.Controllers.DepartmentController
 
             else
             {
-                return View(d);
+                return View(dep);
             }
 
         }
@@ -91,24 +99,25 @@ namespace session5demo.pl.Controllers.DepartmentController
             if (dep is null) return NotFound();
             var res = new Updateddepartmentvm()
             {
-                id = dep.Id,
-                name = dep.Name,
-                code = dep.Code,
-                description = dep.Description
+               Id = dep.Id,
+                Name = dep.Name,
+                Code = dep.Code,
+                Description = dep.Description
             };
             return View(res);
 
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Edit([FromRoute] int? id, Updateddepartmentvm dep)
         {
             if (!ModelState.IsValid) return View(dep);
             var depart = new updatedeprtmentdto()
             {
-                Id = dep.id,
-                Name = dep.name,
-                Code = dep.code,
-                Description = dep.description
+                Id = dep.Id,
+                Name = dep.Name,
+                Code = dep.Code,
+                Description = dep.Description
             };
             if (ModelState.IsValid)
             {
@@ -161,6 +170,8 @@ namespace session5demo.pl.Controllers.DepartmentController
 
         }
         [HttpPost]
+        [ValidateAntiForgeryToken]
+
         public IActionResult Delete(int id)
         {
             var res = _d.deletedepartment(id);

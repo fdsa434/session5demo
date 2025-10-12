@@ -1,4 +1,5 @@
 using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using session5demo.bl.Common.EmployeeMapperProfile;
@@ -22,7 +23,13 @@ namespace session5demo.pl
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Services.AddControllersWithViews();
-            builder.Services.AddDbContext<demoContexsts>(op => op.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+            builder.Services.AddDbContext<demoContexsts>(options =>
+            {
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+                options.UseLazyLoadingProxies();
+            });
+
+
             builder.Services.AddScoped<IdepartmentRepo, DepartmentRepo>();
             builder.Services.AddScoped<IemployeeReposatory, EmployeeReposatory>();
             builder.Services.AddScoped<IdepartmentServices, DepartmentServices>();
@@ -33,7 +40,7 @@ namespace session5demo.pl
 
 
             var app = builder.Build();
-
+            
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
             {

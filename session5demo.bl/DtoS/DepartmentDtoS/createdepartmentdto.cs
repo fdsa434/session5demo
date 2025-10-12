@@ -16,5 +16,6 @@ namespace session5demo.bl.DtoS.DepartmentDtoS
 
         public string Code { get; set; }
         public string? Description { get; set; }
+        
     }
 }

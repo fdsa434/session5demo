@@ -17,6 +17,8 @@ namespace session5demo.dl.Configrations.DepartmentConfigrations
             builder.Property(p => p.Code).HasColumnType("varchar(50)");
             builder.Property(p => p.Name).HasColumnType("varchar(50)");
             builder.Property(p => p.Description).HasColumnType("varchar(50)");
+            builder.HasMany(p => p.emps).WithOne(p => p.dept).HasForeignKey(p => p.deptid).OnDelete(DeleteBehavior.SetNull);
+
 
         }
     }

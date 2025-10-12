@@ -36,7 +36,7 @@ namespace session5demo.bl.Sevices.DpartmentServices
         public IEnumerable<Getalldepartmentsdto> getallservice()
         {
            
-            return m.Map<IEnumerable<Getalldepartmentsdto>>(dep.getall());
+            return m.Map<IEnumerable<Getalldepartmentsdto>>(dep.getall().ToList());
         }
 
         public Getdepartmentbyiddto getdetails(int id)

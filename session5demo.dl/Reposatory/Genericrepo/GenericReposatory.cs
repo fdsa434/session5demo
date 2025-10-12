@@ -36,9 +36,9 @@ namespace session5demo.dl.Reposatory.Genericrepo
             return res;
         }
 
-        public IEnumerable<tentity> getall()
+        public IQueryable<tentity> getall()
         {
-            return d.Set<tentity>().ToList();
+            return d.Set<tentity>().Where(d=>d.Id>0);
         }
 
         public int update(tentity dept)

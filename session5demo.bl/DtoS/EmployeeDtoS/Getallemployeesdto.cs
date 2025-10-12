@@ -21,5 +21,8 @@ namespace session5demo.bl.DtoS.EmployeeDtoS
         public string Gender { get; set; }
         [Display(Name = "Employee Type")]
         public string EmployeeType { get; set; }
+        [Display(Name = "departmentname")]
+        public int? deptid { get; set; }
+        public string? deptname { get; set; }
     }
 }

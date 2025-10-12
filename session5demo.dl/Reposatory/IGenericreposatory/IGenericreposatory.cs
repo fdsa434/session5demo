@@ -10,7 +10,7 @@ namespace session5demo.dl.Reposatory.IGenericreposatory
 {
     public interface IGenericreposatory<tentity> where tentity:BaseEntity
     {
-        public IEnumerable<tentity> getall();
+        public IQueryable<tentity> getall();
         public tentity getabyid(int id);
         public int update(tentity dept);
         public int add(tentity dept);

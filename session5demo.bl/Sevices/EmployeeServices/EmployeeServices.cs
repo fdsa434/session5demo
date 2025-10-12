@@ -36,7 +36,7 @@ namespace session5demo.bl.Sevices.EmployeeServices
 
         public IEnumerable<Getallemployeesdto> getallservice()
         {
-            return m.Map<IEnumerable<Getallemployeesdto>>(emp.getall());
+            return m.Map<IEnumerable<Getallemployeesdto>>(emp.getall().ToList());
         }
 
         public Getemployeebyiddto getdetails(int id)
