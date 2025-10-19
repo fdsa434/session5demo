@@ -11,6 +11,6 @@ namespace session5demo.dl.Reposatory.Iemployeerepo
 {
     public interface IemployeeReposatory: IGenericreposatory<Employee>
     {
-      
+        public IEnumerable<Employee> searchbyname(string? name);
     }
 }

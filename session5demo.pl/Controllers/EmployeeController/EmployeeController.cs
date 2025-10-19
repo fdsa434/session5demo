@@ -1,202 +1,190 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using session5demo.bl.DtoS.DepartmentDtoS;
+﻿using AutoMapper;
+using Humanizer;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using session5demo.bl.DtoS.EmployeeDtoS;
-using session5demo.bl.Sevices.DpartmentServices;
 using session5demo.bl.Sevices.EmployeeServices;
-using session5demo.pl.ViewModels.DepartmentViewModel;
 using session5demo.pl.ViewModels.Employeeupdatevm;
-using System.Runtime.Intrinsics.Arm;
 
 namespace session5demo.pl.Controllers.EmployeeController
 {
     public class EmployeeController:Controller
     {
-        private readonly IemployeeServices _d;
-        private readonly ILogger<EmployeeController> logger;
-        private readonly IWebHostEnvironment webHost;
+        private readonly IemployeeServices s;
+        private readonly ILogger l;
+        private readonly IWebHostEnvironment w;
 
-        public EmployeeController(IemployeeServices d, ILogger<EmployeeController> log, IWebHostEnvironment webHost)
+        public EmployeeController(IemployeeServices s,ILogger<EmployeeController> l,IWebHostEnvironment w)
         {
-            _d = d;
-            logger = log;
-            this.webHost = webHost;
+            this.s = s;
+            this.l = l;
+            this.w = w;
         }
-        public IActionResult Index()
+        [HttpGet]
+        public IActionResult Index(string? name)
         {
-            var res = _d.getallservice();
-            return View(res);
+            var result = string.IsNullOrEmpty(name)
+                ? s.getallservice()
+                : s.searchbyname(name);
+            return View(result);
         }
+
         [HttpGet]
         public IActionResult Create()
         {
             return View();
         }
         [HttpPost]
-
-        [ValidateAntiForgeryToken]
-        public IActionResult Create(Employeeupdatevm dep)
+        public IActionResult Create(Employeeupdatevm dto)
         {
+            var emp = new createemployeedto()
+            {
+                Name = dto.Name,
+                Age = dto.Age,
+                Address = dto.Address,
+                Gender = dto.Gender,
+                deptid = dto.deptid,
+                Email = dto.Email,
+                EmployeeType = dto.EmployeeType,
+                file=dto.file,
+                
+                
 
+            };
             if (ModelState.IsValid)
             {
                 try
                 {
-                    var emp = new createemployeedto()
-                    {
-                        
-                        Name = dep.Name,
-                        Age = dep.Age,
-                        Salary = dep.Salary,
-                        IsActive = dep.IsActive,
-                        Address = dep.Address,
-                        HiringDate = dep.HiringDate,
-                        PhoneNumber = dep.PhoneNumber,
-                        Email = dep.Email,
-                       deptid=dep.deptid
-                    
-
-                    };
-                    var res = _d.addemployee(emp);
+                    var res = s.addemployee(emp);
                     if (res > 0)
                     {
-                        return RedirectToAction("Index");
+                        return RedirectToAction("index");
 
                     }
                     else
                     {
-                        ModelState.AddModelError(string.Empty, "cant create employee");
-                        return View(dep);
+                        ModelState.AddModelError(string.Empty, "not valid");
 
+                        return View(dto);
                     }
-                }
 
-                catch (Exception ex)
+                }
+                catch(Exception ex)
                 {
-                    if (webHost.IsDevelopment())
+                    if (w.IsDevelopment())
                     {
-                        logger.LogError(ex.Message);
-                        return View(dep);
+                        l.LogError(ex.Message);
                     }
                     else
                     {
-                        throw;
+                        return View("Error");
                     }
                 }
-
             }
 
-            else
-            {
-                return View(dep);
-            }
+          
+                return View(dto);
 
+            
         }
-        public IActionResult Details([FromRoute] int? id)
+
+        public IActionResult Edit(int ?id)
         {
             if (id is null) return BadRequest();
-            var res = _d.getdetails(id.Value);
-            if (res is null) return NotFound();
-
-            return View(res);
-
-        }
-        [HttpGet]
-        public IActionResult Edit(int? id)
-        {
-            if (id is null) return BadRequest();
-            var dep = _d.getdetails(id.Value);
-            if (dep is null) return NotFound();
-            var res = new Employeeupdatevm ()
+            var dto = s.getdetails(id.Value);
+            if (dto is null) return NotFound();
+            var emp = new Employeeupdatevm()
             {
-                Id = dep.Id,
-                Name = dep.Name,
-                Age = dep.Age,
-                Salary = dep.Salary,
-                IsActive = dep.IsActive,
-                Address=dep.Address,
-                HiringDate=dep.HiringDate,
-                PhoneNumber=dep.PhoneNumber,
-                Email = dep.Email,
-                deptid=dep.deptid
-
+                Id = dto.Id,
+                Name = dto.Name,
+                Age = dto.Age,
+                Address = dto.Address,
+                Gender = dto.Gender,
+                deptid = dto.deptid,
+                
+                Email = dto.Email,
+                EmployeeType = dto.EmployeeType,
+                filename=dto.FileName,
+               
+                
 
             };
-            return View(res);
-
+            return View(emp);
         }
         [HttpPost]
 
-        [ValidateAntiForgeryToken]
-        public IActionResult Edit([FromRoute] int? id, Employeeupdatevm dep)
+        public IActionResult Edit(Employeeupdatevm dto)
         {
-            if (!ModelState.IsValid) return View(dep);
             var emp = new updateemployeedto()
             {
-                Id = dep.Id,
-                Name = dep.Name,
-                Age = dep.Age,
-                Salary = dep.Salary,
-                IsActive = dep.IsActive,
-                Email = dep.Email,
-                deptid = dep.deptid
-
+                Id = dto.Id,
+                Name = dto.Name,
+                Age = dto.Age,
+                Address = dto.Address,
+                Gender = dto.Gender,
+                deptid = dto.deptid,
+                Email = dto.Email,
+                EmployeeType = dto.EmployeeType,
+                file=dto.file,
+                filename=dto.filename
+                
             };
             if (ModelState.IsValid)
             {
                 try
                 {
-                    var res2 = _d.updateemployee(emp);
-                    if (res2 > 0)
+                    var res = s.updateemployee(emp);
+                    if (res > 0)
                     {
-                        return RedirectToAction("Index");
+                        return RedirectToAction("index");
 
                     }
                     else
                     {
-                        ModelState.AddModelError(string.Empty, "cant create employee");
-                        return View(dep);
+                        ModelState.AddModelError(string.Empty, "not valid");
 
+                        return View(dto);
                     }
-                }
 
+                }
                 catch (Exception ex)
                 {
-                    if (webHost.IsDevelopment())
+                    if (w.IsDevelopment())
                     {
-                        logger.LogError(ex.Message);
-                        return View(dep);
+                        l.LogError(ex.Message);
                     }
                     else
                     {
-                        throw;
+                        return View("Error");
                     }
                 }
-
             }
 
-            else
-            {
-                return View(dep);
-            }
+
+            return View(dto);
+
 
         }
-        [HttpGet]
-
+        public IActionResult Details(int? id)
+        {
+            if (id is null) return BadRequest();
+            var res = s.getdetails(id.Value);
+            if (res is null) return NotFound();
+            return View(res);
+        }
         public IActionResult Delete(int? id)
         {
             if (id is null) return BadRequest();
-            var dep = _d.getdetails(id.Value);
-            if (dep is null) return NotFound();
-
-            return View(dep);
-
+            var res = s.getdetails(id.Value);
+            if (res is null) return NotFound();
+            return View(res);
         }
         [HttpPost]
-        [ValidateAntiForgeryToken]
-
         public IActionResult Delete(int id)
         {
-            var res = _d.deleteemployee(id);
+           
+            var res = s.deleteemployee(id);
+
             if (res > 0)
             {
                 return RedirectToAction("index");
@@ -205,7 +193,6 @@ namespace session5demo.pl.Controllers.EmployeeController
             {
                 return View();
             }
-
         }
     }
 }

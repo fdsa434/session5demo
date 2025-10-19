@@ -2,6 +2,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using session5demo.bl.Common.attachmentCommon;
 using session5demo.bl.Common.EmployeeMapperProfile;
 using session5demo.bl.Common.MapperProfile;
 using session5demo.bl.Sevices.DpartmentServices;
@@ -13,6 +14,7 @@ using session5demo.dl.Reposatory.Employee_Reposatory;
 using session5demo.dl.Reposatory.Genericrepo;
 using session5demo.dl.Reposatory.Iemployeerepo;
 using session5demo.dl.Reposatory.IGenericreposatory;
+using session5demo.dl.UOW;
 
 namespace session5demo.pl
 {
@@ -30,8 +32,9 @@ namespace session5demo.pl
             });
 
 
-            builder.Services.AddScoped<IdepartmentRepo, DepartmentRepo>();
-            builder.Services.AddScoped<IemployeeReposatory, EmployeeReposatory>();
+            builder.Services.AddScoped<IUOW, UOW>();
+            builder.Services.AddScoped<Iattachmentservice, Attachmentservice>();
+
             builder.Services.AddScoped<IdepartmentServices, DepartmentServices>();
             builder.Services.AddScoped<IemployeeServices, EmployeeServices>();
             builder.Services.AddAutoMapper(m=>m.AddMaps(typeof(DepartmentProfile).Assembly));

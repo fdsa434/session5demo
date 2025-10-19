@@ -18,6 +18,12 @@
     <div class="tab-pane fade show active p-4 border" id="general" role="tabpanel" aria-labelledby="general-tab">
 
         <div class="row">
+            
+            <div class="form-group mb-3 col-6">
+                <img src="@Url.Content($"~/assets/images/{Model.FileName}")" class="img-thumbnail" style="max-width:200px; max-height:200px;" alt="Employee Photo" />
+
+               
+            </div>
             <div class="form-group mb-3 col-6">
                 <label class="form-label" asp-for="Name"></label>
                 <input asp-for="Name" class="form-control" readonly />

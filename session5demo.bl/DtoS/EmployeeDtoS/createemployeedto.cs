@@ -1,4 +1,5 @@
-﻿using session5demo.dl.Models.EmployeeModels;
+﻿using Microsoft.AspNetCore.Http;
+using session5demo.dl.Models.EmployeeModels;
 using session5demo.dl.Models.Shared;
 using System;
 using System.Collections.Generic;
@@ -34,6 +35,7 @@ namespace session5demo.bl.DtoS.EmployeeDtoS
         public string Gender { get; set; }
         public string EmployeeType { get; set; }
         public int? deptid { get; set; }
+        public IFormFile? file { get; set; }
     
     }
 }

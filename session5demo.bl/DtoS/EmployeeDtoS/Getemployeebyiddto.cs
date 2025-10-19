@@ -27,5 +27,6 @@ namespace session5demo.bl.DtoS.EmployeeDtoS
         public DateTime LastModifiedOn { get; set; }
         public string? deptname { get; set; }
         public int? deptid { get; set; }
+        public string? FileName { get; set; }
     }
 }

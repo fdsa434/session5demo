@@ -18,4 +18,8 @@
     <ProjectReference Include="..\session5demo.bl\session5demo.bl.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\assets\images\" />
+  </ItemGroup>
+
 </Project>

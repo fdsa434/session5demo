@@ -17,17 +17,15 @@ namespace session5demo.dl.Reposatory.Genericrepo
         {
             this.d = _d;
         }
-        public int add(tentity dept)
+        public void add(tentity dept)
         {
             d.Set<tentity>().Add(dept);
-            return d.SaveChanges();
         }
 
-        public int delete(int id)
+        public void delete(int id)
         {
             var res = d.Set<tentity>().Find(id);
             d.Set<tentity>().Remove(res);
-            return d.SaveChanges();
         }
 
         public tentity getabyid(int id)
@@ -41,10 +39,9 @@ namespace session5demo.dl.Reposatory.Genericrepo
             return d.Set<tentity>().Where(d=>d.Id>0);
         }
 
-        public int update(tentity dept)
+        public void update(tentity dept)
         {
               var res = d.Set<tentity>().Update(dept);
-            return d.SaveChanges();
         }
     }
 }

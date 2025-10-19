@@ -25,6 +25,7 @@ namespace session5demo.dl.Models.EmployeeModels
         public int? deptid { get; set; }
         [InverseProperty("emps")]
         public virtual Department dept { get; set; }
+        public string? FileName { get; set; }
 
     }
 }

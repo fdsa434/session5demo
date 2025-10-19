@@ -11,6 +11,8 @@ namespace session5demo.bl.Sevices.EmployeeServices
     public interface IemployeeServices
     {
         public IEnumerable<Getallemployeesdto> getallservice();
+        public IEnumerable<Getallemployeesdto> searchbyname(string ?name);
+
         public Getemployeebyiddto getdetails(int id);
         public int addemployee(createemployeedto d);
         public int updateemployee(updateemployeedto d);

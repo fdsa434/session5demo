@@ -12,8 +12,8 @@ namespace session5demo.dl.Reposatory.IGenericreposatory
     {
         public IQueryable<tentity> getall();
         public tentity getabyid(int id);
-        public int update(tentity dept);
-        public int add(tentity dept);
-        public int delete(int id);
+        public void update(tentity dept);
+        public void add(tentity dept);
+        public void delete(int id);
     }
 }

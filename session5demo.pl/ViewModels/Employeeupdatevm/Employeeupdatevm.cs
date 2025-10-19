@@ -31,6 +31,9 @@ namespace session5demo.pl.ViewModels.Employeeupdatevm
         public string? EmployeeType { get; set; }
         [Display(Name = "department name")]
         public int? deptid { get; set; }
-        
+        public string? filename { get; set; }
+        public IFormFile? file{ get; set; }
+
+
     }
 }

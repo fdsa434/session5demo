@@ -4,10 +4,16 @@
 }
 
 <h1>All Employees</h1>
-<br />
-<br />
-<a class="btn btn-primary" asp-controller="Employee" asp-action="Create">Create Employee</a>
-<br />
+
+<!-- 🔍 Search Form -->
+<form asp-action="Index" method="Get" class="d-flex mb-3 mt-4">
+    <input type="text" name="name" class="form-control me-2" placeholder="Search by name..." />
+    <button type="submit" class="btn btn-outline-primary">Search</button>
+</form>
+
+<!-- ➕ Create Button -->
+<a class="btn btn-primary mb-3" asp-controller="Employee" asp-action="Create">Create Employee</a>
+
 @if (Model.Any())
 {
     <table class="table table-striped table-hover mt-3">
@@ -21,7 +27,7 @@
                 <th>@Html.DisplayNameFor(e => e.IsActive)</th>
                 <th>@Html.DisplayNameFor(e => e.Gender)</th>
                 <th>@Html.DisplayNameFor(e => e.deptname)</th>
-                <th>Details </th>
+                <th>Details</th>
                 <th>Update</th>
                 <th>Delete</th>
             </tr>
@@ -30,7 +36,6 @@
             @foreach (var employee in Model)
             {
                 <tr>
-
                     <td>@employee.Name</td>
                     <td>@employee.Email</td>
                     <td>@employee.EmployeeType</td>
@@ -39,11 +44,7 @@
                     <td>@employee.IsActive</td>
                     <td>@employee.Gender</td>
                     <td>@employee.deptname</td>
-
-   
                     <partial name="button" model="@employee.Id" />
-
-
                 </tr>
             }
         </tbody>
@@ -51,7 +52,7 @@
 }
 else
 {
-    <div class="alert alert-info mt-3">
+    <div class="alert alert-info mt-3 text-center">
         <h2>No Employees Found !!</h2>
     </div>
 }

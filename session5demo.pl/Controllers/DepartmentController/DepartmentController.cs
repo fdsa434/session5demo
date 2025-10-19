@@ -23,6 +23,7 @@ namespace session5demo.pl.Controllers.DepartmentController
             var res = _d.getallservice();
             return View(res);
         }
+       
         [HttpGet]
         public IActionResult Create()
         {

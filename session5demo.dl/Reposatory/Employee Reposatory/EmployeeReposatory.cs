@@ -18,5 +18,14 @@ namespace session5demo.dl.Reposatory.Employee_Reposatory
         {
             this.d = d;
         }
+
+        public IEnumerable<Employee> searchbyname(string? name)
+        {
+            if (name is null) return getall();
+            else
+            {
+                return d.employees.Where(e => e.Name.Trim().Contains(name));
+            }
+        }
     }
 }

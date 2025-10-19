@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using session5demo.dl.Contexts;
 
@@ -11,9 +12,11 @@ using session5demo.dl.Contexts;
 namespace session5demo.dl.Migrations
 {
     [DbContext(typeof(demoContexsts))]
-    partial class demoContexstsModelSnapshot : ModelSnapshot
+    [Migration("20251019035226_lk")]
+    partial class lk
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
