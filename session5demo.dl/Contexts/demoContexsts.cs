@@ -1,4 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using session5demo.dl.Models.AuthModel;
 using session5demo.dl.Models.DepartmentModels;
 using session5demo.dl.Models.EmployeeModels;
 using System;
@@ -9,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace session5demo.dl.Contexts
 {
-    public class demoContexsts:DbContext
+    public class demoContexsts:IdentityDbContext<ApplicationUser,IdentityRole, string>
     {
         public demoContexsts(DbContextOptions<demoContexsts> options) : base(options)
         {
@@ -19,6 +22,7 @@ namespace session5demo.dl.Contexts
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(demoContexsts).Assembly);
         }
         public DbSet<Department> departments { get; set; }

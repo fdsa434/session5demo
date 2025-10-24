@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using session5demo.bl.DtoS.DepartmentDtoS;
 using session5demo.bl.Sevices.DpartmentServices;
 using session5demo.pl.ViewModels.DepartmentViewModel;
@@ -6,6 +7,8 @@ using System.Runtime.Intrinsics.Arm;
 
 namespace session5demo.pl.Controllers.DepartmentController
 {
+
+    [Authorize]
     public class DepartmentController:Controller
     {
         private readonly IdepartmentServices _d;

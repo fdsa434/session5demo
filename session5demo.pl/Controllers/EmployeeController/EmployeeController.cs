@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Humanizer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using session5demo.bl.DtoS.EmployeeDtoS;
@@ -8,6 +9,9 @@ using session5demo.pl.ViewModels.Employeeupdatevm;
 
 namespace session5demo.pl.Controllers.EmployeeController
 {
+[Authorize]
+
+
     public class EmployeeController:Controller
     {
         private readonly IemployeeServices s;

@@ -1,8 +1,8 @@
 using System.Diagnostics;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace session5demo.pl.Controllers;
-
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
